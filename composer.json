@@ -1,0 +1,21 @@
+{
+    "name": "g3n1us/genius_components",
+    "description": "Create componentized HTML widgets",
+    "require": {
+        "php": "^5.5.0 || ^7.0",
+		"g3n1us/datatidy": "^1.6"
+    },
+	"authors": [
+	    {
+	        "name": "Sean Bethel",
+	        "email": "tech@americanmadeweb.com",
+	        "homepage": "http://americanmadeweb.com"
+	    }
+	],
+    "autoload": {
+        "psr-4": {
+            "G3n1us\\Components\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
