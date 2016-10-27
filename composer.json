@@ -17,5 +17,8 @@
             "G3n1us\\Components\\": "src/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "scripts": {
+        "post-update-cmd": "pwd"
+    } 
 }
