@@ -3,7 +3,7 @@
     "description": "Create componentized HTML widgets",
     "require": {
         "php": "^5.5.0 || ^7.0",
-		"g3n1us/datatidy": "^1.6"
+		"g3n1us/datatidy": "^1.0.0"
     },
 	"authors": [
 	    {
