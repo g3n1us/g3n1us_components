@@ -5,13 +5,14 @@ function SiteComponent(component_name, options){
 	var _this = this;
 
 	// defaults, override with options
-	_this.data_url = "/json/feed";
+	_this.data_url = null;
 	_this.templates = {};
 	_this.data = null;
-	_this.domselector = null;
+// 	_this.domselector = null;
 	_this.domtarget = null;
 	_this.domtarget_index = null; // can be "first", "last", or a numeric index from the returned collection
-	_this.dataTransformer = null;
+	_this.dataTransformer = null; // can be function that converts returned data
+	_this.dataFromDOM = null; // can be function that parses existing DOM to provide data
 	_this.trigger_event = null;
 	_this.on_event = null;
 	_this.required_templates = {
@@ -32,12 +33,7 @@ function SiteComponent(component_name, options){
 
 	// Init the script
 	_this.run = function(){
-		_this.wait(function(){
-/*
-			_this.getData(function(){
-				$.getScript(_this.directory_url + '/index.js', function(){
-*/
-			
+		_this.wait(function(){			
 			$.getScript(_this.directory_url + '/index.js', function(){
 				_this.getData(function(){
 					// call CSS by itself, runs async
@@ -55,7 +51,6 @@ function SiteComponent(component_name, options){
 							 $('.mdc_component--loading').removeClass('.mdc_component--loading');
 						}
 						_this.getScripts(function(textStatus){
-							// alert(textStatus);
 							if(textStatus === 'success') completed++;
 							if(completed == _this.required_js_length){
 								 _this.callback(_this.data);
@@ -97,11 +92,9 @@ function SiteComponent(component_name, options){
 	
 	_this.getData = function(callback){
 		if(_this.data || (!_this.domselector && !_this.data_url)) callback();
-		else if(_this.domselector) {
-			_this.dataFromDOM(_this.domselector, function(data){
-				_this.data = data;
-				callback();
-			});
+		else if(typeof _this.dataFromDOM == 'function') {
+			_this.data = _this.dataFromDOM();
+			callback();
 		}
 		else $.getJSON(_this.data_url, {'component_name': _this.namespace}, function(data){			
 			console.log(data);
@@ -118,6 +111,7 @@ function SiteComponent(component_name, options){
 	
 	
 	
+/*
 	_this.dataFromDOM = function(selector, callback){
 		var data = $(selector).map(function() {
 			var url = $(this).find('.headline a').attr('href');
@@ -140,6 +134,7 @@ function SiteComponent(component_name, options){
 		};
 		callback(dataobject);	
 	}
+*/
 	
 	
 	
@@ -210,7 +205,6 @@ function SiteComponent(component_name, options){
 
 							callback();								
 						}
-						console.log(completed);
 					})
 					.fail(function(hb, textStatus, xhr){
 						console.log("SiteComponent failed to load template file: " + xhr);
@@ -240,6 +234,8 @@ function SiteComponent(component_name, options){
 				});
 		};	
 	};
+	
+	
 	
 };
 
