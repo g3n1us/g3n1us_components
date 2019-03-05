@@ -1,4 +1,4 @@
-.convention_video_showcase:not(.mdc_component--loaded), .mdc_component--loading, [data-mdc_component]:not(.mdc_component--loaded){
+.convention_video_showcase:not(.g3n1us_component--loaded), .g3n1us_component--loading, [data-g3n1us_component]:not(.g3n1us_component--loaded){
 	max-height: 200px;
 	min-height: 150px;
 	background-color: #d9d9d9;
@@ -8,10 +8,10 @@
 	text-align: center;
 	color: black;
 }
-.convention_video_showcase:not(.mdc_component--loaded) *, .mdc_component--loading *, [data-mdc_component]:not(.mdc_component--loaded) *{
+.convention_video_showcase:not(.g3n1us_component--loaded) *, .g3n1us_component--loading *, [data-g3n1us_component]:not(.g3n1us_component--loaded) *{
 	opacity: 0;
 }
-.convention_video_showcase:not(.mdc_component--loaded)::before, .mdc_component--loading::before, [data-mdc_component]:not(.mdc_component--loaded)::before{
+.convention_video_showcase:not(.g3n1us_component--loaded)::before, .g3n1us_component--loading::before, [data-g3n1us_component]:not(.g3n1us_component--loaded)::before{
     position: absolute;
     bottom: 35px;
     content: "loading...";
@@ -19,7 +19,7 @@
     right: 0;
     font-size: 20px;
 }
-.convention_video_showcase:not(.mdc_component--loaded)::after, .mdc_component--loading::after, [data-mdc_component]:not(.mdc_component--loaded)::after{
+.convention_video_showcase:not(.g3n1us_component--loaded)::after, .g3n1us_component--loading::after, [data-g3n1us_component]:not(.g3n1us_component--loaded)::after{
 	font-family: FontAwesome;
 	-webkit-animation: fa-spin 2s infinite linear;
 	animation: fa-spin 2s infinite linear;
@@ -32,14 +32,14 @@
     line-height: 0;
 }
 
-.mdc_component--loading{
+.g3n1us_component--loading{
 	max-height: 120px;
 	background-color: #d9d9d9;
 	position: relative;
 	overflow: hidden;
 }
 /*
-.mdc_component--loading::after{
+.g3n1us_component--loading::after{
 	content: "loading...";
 	color: black;
 	position: absolute;

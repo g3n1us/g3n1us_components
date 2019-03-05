@@ -1,6 +1,6 @@
 var SiteComponentScript = document.currentScript;
 
-function SiteComponent(component_name, options){	
+function SiteComponent(component_name, options){
 	// data is either a string URL or data object
 	var _this = this;
 
@@ -19,54 +19,52 @@ function SiteComponent(component_name, options){
 	_this.required_templates = {
 		'index': 'index.hbs?v='+_this.file_version,
 	};
-	
+
 	// 	apply user defined options
 	if(options && typeof options == "object")
-		for(var i in options) 
-			if(typeof _this[i] !== "undefined") 
-				_this[i] = options[i];	
-				
-	_this.namespace = component_name;	
+		for(var i in options)
+			if(typeof _this[i] !== "undefined")
+				_this[i] = options[i];
+
+	_this.namespace = component_name;
 	_this.script = SiteComponentScript;
 	_this.directory = _this.script.getAttribute('src').split('SiteComponent.js')[0] + component_name;
-	_this.directory_url = _this.script.src.split('SiteComponent.js')[0] + component_name;	
+	_this.directory_url = _this.script.src.split('SiteComponent.js')[0] + component_name;
 	_this.pathArray = _this.directory.split('/');
-	
+
 
 	// Init the script
 	_this.run = function(){
-		_this.wait(function(){			
+		_this.wait(function(){
 			$.getScript(_this.directory_url + '/index.js?v='+_this.file_version, function(){
 				_this.getData(function(){
 					// call CSS by itself, runs async
-					_this.putCSS(function(){});	
-						
-					if(_this.dataTransformer) _this.dataTransformer();	
+					_this.putCSS(function(){});
+
+					if(_this.dataTransformer) _this.dataTransformer();
 					console.log(_this.data);
-					_this.required_js_length = Object.keys(_this.required_js).length;				
+					_this.required_js_length = Object.keys(_this.required_js).length;
 					_this.required_css_length = Object.keys(_this.required_css).length;
 					_this.required_templates_length = Object.keys(_this.required_templates).length;
 					_this.getTemplates(function(){
 						var completed = 0;
 						if(!_this.required_js_length) {
 							var event = document.createEvent('Event');
-							event.initEvent('mdc_components_loaded', true, true);
-							document.dispatchEvent(event);	        		    
-							_this.callback(_this.data);							    
-// 							$('.mdc_component--loading').removeClass('.mdc_component--loading');
+							event.initEvent('g3n1us_components_loaded', true, true);
+							document.dispatchEvent(event);
+							_this.callback(_this.data);
 						}
 						_this.getScripts(function(textStatus){
 							if(textStatus === 'success') completed++;
 							if(completed == _this.required_js_length){
 								var event = document.createEvent('Event');
-								event.initEvent('mdc_components_loaded', true, true);
-								document.dispatchEvent(event);	        		    
-								 _this.callback(_this.data);								    								 
-// 								$('.mdc_component--loading').removeClass('.mdc_component--loading');
+								event.initEvent('g3n1us_components_loaded', true, true);
+								document.dispatchEvent(event);
+								 _this.callback(_this.data);
 							}
 						});
 					});
-				});	
+				});
 			})
 			.done(function(data){
 				//alert(data);
@@ -80,14 +78,14 @@ function SiteComponent(component_name, options){
 			.always(function() {
 				console.log("script always");
 			});
-			
-		});		
+
+		});
 	}
 
 
 
 	//!  FUNCTIONS
-	
+
 	_this.wait = function(callback){
 		if(_this.on_event){
 			document.addEventListener(_this.on_event, function() {
@@ -96,8 +94,8 @@ function SiteComponent(component_name, options){
 		}
 		else callback();
 	}
-	
-	
+
+
 	_this.getData = function(callback){
 		if(_this.data || (!_this.domselector && !_this.data_url)) callback();
 		else if(typeof _this.dataFromDOM == 'function') {
@@ -106,7 +104,7 @@ function SiteComponent(component_name, options){
 		}
 		else {
 			_this.data_url = (_this.data_url[0] == '/' || _this.data_url.slice(0,4) == 'http') ? _this.data_url : _this.directory+'/'+_this.data_url;
-			$.getJSON(_this.data_url, {'component_name': _this.namespace}, function(data){			
+			$.getJSON(_this.data_url, {'component_name': _this.namespace}, function(data){
 				console.log(data);
 				_this.data = data;
 				callback();
@@ -116,12 +114,12 @@ function SiteComponent(component_name, options){
 			})
 			.always(function() {
 				console.log("always");
-			});			
+			});
 		}
 	}
-	
-	
-	
+
+
+
 /*
 	_this.dataFromDOM = function(selector, callback){
 		var data = $(selector).map(function() {
@@ -133,7 +131,7 @@ function SiteComponent(component_name, options){
 		        photo_hash: $(this).find('.lead-photo img').data('image'),
 		        content: $(this).find('.headline :header').text()
 		    };
-		}).get();	
+		}).get();
 		dataobject = {
 			createdFromDom: true,
 			party: ($('body').attr('class').indexOf('rnc') !== -1) ? 'rnc' : 'dnc',
@@ -143,12 +141,12 @@ function SiteComponent(component_name, options){
 				// interviews: data,
 			}
 		};
-		callback(dataobject);	
+		callback(dataobject);
 	}
 */
-	
-	
-	
+
+
+
 	_this.putCSS = function(callback){
 		var returnedcss = '<style>';
 		for(var key in _this.required_css){
@@ -168,14 +166,14 @@ function SiteComponent(component_name, options){
 			});
 		}
 	}
-	
-	
-	
+
+
+
 	_this.getTemplates = function(callback){
 		if(!_this.required_templates) callback();
-		 
+
 	    else require(["bootstrap"], function () {
-		    
+
 			require(["handlebars"], function (Handlebars) {
 				window.Handlebars = Handlebars;
 				var completed = 0;
@@ -184,23 +182,23 @@ function SiteComponent(component_name, options){
 					var val = _this.required_templates[key];
 					var path = val[0] == '/' ? val : _this.directory+'/'+val;
 					if(path.indexOf('?') === -1) path = path + '?v=' + _this.file_version;
-					else path = path + '&v=' + _this.file_version;					
-					var key = key;					
+					else path = path + '&v=' + _this.file_version;
+					var key = key;
 					template_requests[key] = $.get(path, function(hb, textStatus, xhr){
 						completed++;
 					}).done(function(data, textStatus, xhr){
 						if(completed === _this.required_templates_length) {
-							
+
 							for(var i in template_requests){
 								// to include as a partial instead of a template, use the following format in the key name
 								if(i.indexOf('_partial') !== -1) Handlebars.registerPartial(i, template_requests[i].responseText);
 								else _this.templates[i] = Handlebars.compile(template_requests[i].responseText);
-							}	
+							}
 							var $targetdiv = _this.domtarget;
 							if(_this.domtarget && typeof _this.domtarget === "string")
 								var $targetdiv = $(_this.domtarget);
-// 							var $rendered = $(_this.templates.index(_this.data));	
-							var rendered = _this.templates.index(_this.data);	
+// 							var $rendered = $(_this.templates.index(_this.data));
+							var rendered = _this.templates.index(_this.data);
 							if($targetdiv[0].tagName.toLowerCase() == "script"){
 								$targetdiv.before(rendered);
 							}
@@ -215,34 +213,34 @@ function SiteComponent(component_name, options){
 							}
 							_this.container = $targetdiv;
 							$targetdiv.add(rendered);
-							$targetdiv.removeClass('hidden hide mdc_component--loading')
-								.addClass('mdc_component--loaded')
-								.show();					
-							
-							callback();								
+							$targetdiv.removeClass('hidden hide g3n1us_component--loading')
+								.addClass('g3n1us_component--loaded')
+								.show();
+
+							callback();
 						}
 					})
 					.fail(function(hb, textStatus, xhr){
 						console.log("SiteComponent failed to load template file: " + xhr);
 					});
-				};			    
+				};
 			});
 		});
 	}
-	
-	
-	
+
+
+
 	_this.getScripts = function(callback){
-		
+
 		for(var key in _this.required_js){
 			var val = _this.required_js[key];
 			var path = val[0] == '/' ? val : _this.directory+'/'+val;
 			if(path.indexOf('?') === -1) path = path + '?v=' + _this.file_version;
-			else path = path + '&v=' + _this.file_version;		
-			
+			else path = path + '&v=' + _this.file_version;
+
 			if(val.indexOf('handle') !== -1){
 				var myScript = document.createElement('script');
-				myScript.src = path;				
+				myScript.src = path;
 				document.head.appendChild(myScript);
 				callback("success");
 			}
@@ -251,24 +249,24 @@ function SiteComponent(component_name, options){
 					.done(function(script, textStatus){
 						callback(textStatus);
 				});
-		};	
+		};
 	};
-	
-	
-	
+
+
+
 };
 
 
-document.addEventListener('mdc_components_loaded', function(e){
-	$("[data-mdc_component]").not('.mdc_component--loading, .mdc_component--loaded').each(function(){
-		var component_name = $(this).data('mdc_component');
+document.addEventListener('g3n1us_components_loaded', function(e){
+	$("[data-g3n1us_component]").not('.g3n1us_component--loading, .g3n1us_component--loaded').each(function(){
+		var component_name = $(this).data('g3n1us_component');
 		window[component_name];
 		var data = $(this).data();
-		delete data.mdc_component;
+		delete data.g3n1us_component;
 		if(!data.domtarget) data.domtarget = $(this);
 		console.log(data);
 		window[component_name] = new SiteComponent(component_name, data);
-		window[component_name].run();		
+		window[component_name].run();
 	});
 });
 
